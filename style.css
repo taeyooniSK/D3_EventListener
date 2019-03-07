@@ -21,6 +21,14 @@ h1 {
     background-color: #77A6B6;
 }
 
+#notes .note.active{
+    margin-top: 15px;
+    padding: 8px 10px;
+    border: 5px solid darkolivegreen;
+    border-radius: 3px;
+    background-color: greenyellow;
+}
+
 #note-form {
     margin-top: 30px;
     text-align: center;
