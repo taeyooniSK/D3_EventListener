@@ -9,23 +9,22 @@
 </head>
 <body>
     <h1>Notes App</h1>
+    
     <div id="notes">
         <p class="note">note1</p>
         <p class="note">note2</p>
     </div>
+    <p id="preview" class="hide"></p>
     <div id="form-container">
         <form id="note-form">
             <input type="text" id="note-form__input">
             <input type="submit" id="note-btn" value="Add Note">
-            <button id="removeAll-btn" type="button">Remove All</button>
+            <button id="removeAll-btn" type="button">Remove All</button> <!-- 여기에 type="button"이라고 붙여주는 이유는 위에 제출할 버튼만 submit이벤트가 작동되게 할 것이기 떄문-->
             <button id="lucky-btn" type="button">I'm feeling lucky</button>
         </form>
        
     </div>
     
-    
-
-
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="main.js"></script>
 </body>
