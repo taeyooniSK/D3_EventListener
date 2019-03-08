@@ -77,6 +77,4 @@ button {
     padding: 20px 15px;
     border-radius: 6px;
     font-weight: bold;
-    transition: all 1.5s ease;
-    /* transition: opacity 1.5s ease; */
 }

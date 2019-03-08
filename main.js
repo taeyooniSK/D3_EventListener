@@ -193,8 +193,8 @@ function removeNotes() {
 luckyBtn.on("click", reactToLucky)
 
 function reactToLucky(){
-    const fontSize = Math.floor(Math.random() * 30);
     d3.selectAll(".note")
-      .data(fontSize)
-      .style("font-size", data => { return data + "px"});
+      .style("font-size", () => { 
+        return Math.floor(Math.random() * 30) + "px"
+    });
 }
