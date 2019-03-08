@@ -45,33 +45,46 @@
 
 */
 
-
-
 /*
 노트가 추가가 된 후에 글자를 치면 노트의 박스 색깔이 바뀌고
 글자 치는 내용이 그대로 노트 박스에 보임
-*/ 
+*/
 
-let isSubmitted = false;
+const removeAllBtn = d3.select("#removeAll-btn");
+const input = d3.select("#note-form__input");
+const luckyBtn = d3.select("#lucky-btn");
 let note;
 
-d3.select("#note-form").on("submit",  () => {
-    d3.event.preventDefault();
-    isSubmitted = true;
-    const input = d3.select("#note-form__input");
+d3.select("#note-form").on("submit", () => {
+  d3.event.preventDefault();
+  // isSubmitted = true;
+
+  if (
+    input.property("value").length === 0 &&
+    d3.selectAll(".warning").size() < 1
+  ) {
+    d3.select("body")
+      .insert("div", ":first-child")
+        .classed("warning", true)
+        .text("YOU SHOULD ENTER SOMETHING!");
+    let warningMsg = d3.select(".warning");
+    setTimeout(() => {
+      warningMsg.remove();
+    }, 2000);
+  } else if (input.property("value").length > 0) {
     d3.select("#notes")
       .append("p")
         .classed("note", true)
-        .text(input.property("value"))
+        .text(input.property("value"));
     input.property("value", "");
-    isbSubmitted = true;
+  }
+
+  if (note) {
     note.remove();
+  }
 });
 
-
-
 const input_form = d3.select("#note-form__input");
-
 
 /*
 
@@ -106,74 +119,82 @@ const input_form = d3.select("#note-form__input");
 
 */
 
-    /*
+/*
         인풋창에 글자를 처음으로 쓴다(keydown)
         프리뷰 노트창이 뜬다. 그리고 keydown 이벤트는 작동되지않는다.
         키업 이벤트가 작동되면서 프리뷰 노트창에 글자가 입력되는게 보인다. 
         내용을 제출하면 프리뷰 노트는 DOM에서 지워진다 ( 평범한 노트 창이 보인다)
     */
 
+// let hasActive = d3.select(".active").node().className;
 
-    // let hasActive = d3.select(".active").node().className;
+// input_form.on("keydown", () => {
+//     note = d3.select("#notes")
+//              .append("p")
+//                 .classed("note active", true);
 
-    // input_form.on("keydown", () => {
-    //     note = d3.select("#notes")
-    //              .append("p")
-    //                 .classed("note active", true);
-            
+//     input_form.on("keyup", () => {
+//         input_form.on("keydown", null);
+//         for ( let i = 0; i < d3.selectAll(".note").nodes().length; i++ ){
+//             // if ( d3.selectAll("p.note").nodes()[i].className === "active"){
 
-    //     input_form.on("keyup", () => { 
-    //         input_form.on("keydown", null);
-    //         for ( let i = 0; i < d3.selectAll(".note").nodes().length; i++ ){
-    //             // if ( d3.selectAll("p.note").nodes()[i].className === "active"){
+//             // }
+//             if ( d3.selectAll(".active").nodes().length === 1 ){
+//                 d3.select(".active").text(input_form.property("value"));
+//                 input_form.on("keydown", null);
+//             }
+//         }
+//     })
 
-    //             // }
-    //             if ( d3.selectAll(".active").nodes().length === 1 ){
-    //                 d3.select(".active").text(input_form.property("value"));
-    //                 input_form.on("keydown", null);
-    //             }
-    //         }
-    //     })
-        
-    // })
+// })
 
+// input_form.on("keydown", () => {
+//     let target = d3.event;
+//     console.log(target);
 
+//     if (d3.select(".active").size() === 0 && input_form.property("value").length > 0 ) {
+//         note = d3.select("#notes")
+//                  .append("p")
+//                     .classed("note active", true);
 
+//         input_form.on("keyup", () => {
+//             input_form.on("keydown", null);
+//             note.text(input_form.property("value"));
+//         })
+//     }
+// })
 
-    // input_form.on("keydown", () => {
-    //     let target = d3.event;
-    //     console.log(target);
-       
-    //     if (d3.select(".active").size() === 0 && input_form.property("value").length > 0 ) {
-    //         note = d3.select("#notes")
-    //                  .append("p")
-    //                     .classed("note active", true);
-                        
-    //         input_form.on("keyup", () => {
-    //             input_form.on("keydown", null);
-    //             note.text(input_form.property("value"));
-    //         })
-    //     }
-    // })
+input.on("keydown", keyDown);
+input.on("keyup", keyUp);
 
+function keyDown() {
+  if (d3.select(".active").size() === 0 && input.property("value").length > 0) {
+    note = d3
+      .select("#notes")
+        .append("p")
+        .classed("note active", true);
+  }
+}
 
+function keyUp() {
+  keyDown();
+  input.on("keydown", null);
+  if (input.property("value").length > 0) note.text(input.property("value"));
+}
 
-    input_form.on("keydown", keyDown);
-    input_form.on("keyup", keyUp);
+removeAllBtn.on("click", removeNotes);
 
+function removeNotes() {
+  d3.select("#notes")
+    .selectAll("p.note")
+    .remove();
+}
 
-    function keyDown(){
-        if (d3.select(".active").size() === 0 && input_form.property("value").length > 0 ) {
-            note = d3.select("#notes")
-                    .append("p")
-                        .classed("note active", true);
-        }
-    };
+luckyBtn.on("click", reactToLucky)
 
-    function keyUp(){
-
-        input_form.on("keydown", null);
-        note.text(input_form.property("value"));
-        keyDown();
-                   
-    };
+function reactToLucky(){
+    const fontSize = Math.floor(Math.random() * 30);
+    d3.selectAll(".note")
+      .data(fontSize)
+      .style("font-size", data => { return data + "px"});
+}

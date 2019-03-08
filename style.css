@@ -29,9 +29,13 @@ h1 {
     background-color: greenyellow;
 }
 
+#form-container {
+    margin: 30px;
+}
+
 #note-form {
-    margin-top: 30px;
     text-align: center;
+    display: inline;
 }
 
 #note-form__input {
@@ -48,4 +52,31 @@ h1 {
     background-color: coral;
     font-weight: bold;
     cursor: pointer;
+}
+
+button {
+    outline: none;
+    border: none;
+    padding: 15px 10px;
+    vertical-align: top;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#removeAll-btn {
+    background-color: rgb(173, 39, 39);
+}
+
+#lucky-btn {
+    background-color: rgb(149, 228, 69);
+}
+
+.warning{
+    background-color: rgb(235, 57, 93);
+    font-size: 17px;
+    padding: 20px 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 1.5s ease;
+    /* transition: opacity 1.5s ease; */
 }
