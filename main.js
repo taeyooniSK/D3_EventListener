@@ -14,12 +14,21 @@ const preview = d3.select("#preview");
 d3.select("#note-form").on("submit", () => {
     const event = d3.event;
     event.preventDefault();
-    
-      d3.select("#notes")
+    let warningMsg = d3.select(".warning");
+
+    if ( input.property("value").length === 0 ){
+        warningMsg.style("display", "block");
+        setTimeout(() => {
+            warningMsg.style("display", "none");
+        }, 1500);
+    } else if (input.property("value").length > 0){
+        d3.select("#notes")
         .append("p")
             .classed("note", true)
             .text(input.property("value"));
-    input.property("value", "");
+        input.property("value", "");
+    }
+      
     setPreview("");
 })
 

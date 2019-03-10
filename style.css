@@ -74,6 +74,7 @@ button {
 }
 
 .warning{
+    display: none;
     background-color: rgb(235, 57, 93);
     font-size: 17px;
     padding: 20px 15px;
